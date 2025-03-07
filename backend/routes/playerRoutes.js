@@ -17,7 +17,8 @@ router.get("/", async (req, res) => {
 // Get player by screen name
 router.get("/:screenName", async (req, res) => {
     try {
-        const player = await Player.findOne({ ScreenName: req.params.screenName });
+        const player = await Player.findOne({ ScreenName: new RegExp(`^${req.params.screenName}$`, "i") });
+
         if (!player) {
             return res.status(404).json({ error: "Player not found" });
         }
